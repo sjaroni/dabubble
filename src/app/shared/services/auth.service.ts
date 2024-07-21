@@ -97,6 +97,7 @@ export class AuthService {
     this.user.provider = 'google';
     this.router.navigateByUrl('/main');
     this.firestore.updateUser(this.user, this.user.id!);
+    this.resetValues();
   }
 
   /**
@@ -185,9 +186,18 @@ export class AuthService {
         this.user.isOnline = true;
         this.user.provider = 'email';
         this.firestore.updateUser(this.user, this.user.id);
+        this.resetValues();
       }
     });
     return from(promise);
+  }
+
+  /**
+   * Reset Values from previsous login
+   */
+  resetValues() {
+    this.matchMedia.channelId = '';
+    this.matchMedia.channelName = '';
   }
 
   /**
@@ -206,6 +216,7 @@ export class AuthService {
         .then(() => {
           this.router.navigate(['/login']);
           this.user.isOnline = false;
+          this.resetValues();
           resolve();
         })
         .catch((error) => {
@@ -215,7 +226,7 @@ export class AuthService {
   }
 
   /**
-   * Update values of the logged out user.   
+   * Update values of the logged out user.
    */
   async updateValues(currentUser: any) {
     this.user.id = currentUser.uid ?? this.user.id;

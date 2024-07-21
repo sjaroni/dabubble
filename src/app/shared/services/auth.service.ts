@@ -17,7 +17,6 @@ import {
   signInAnonymously,
   sendEmailVerification,
   UserCredential,
-  updateEmail,
   applyActionCode,
 } from '@angular/fire/auth';
 import { Observable, from, BehaviorSubject } from 'rxjs';
@@ -255,7 +254,7 @@ export class AuthService {
    */
   sendMailVerification(currentUser: any): Observable<void> {
     const promise = sendEmailVerification(currentUser!).then(() => {
-      console.log('Email verification sent!');
+      // console.log('Email verification sent!');
     });
     return from(promise);
   }
@@ -276,12 +275,12 @@ export class AuthService {
             this.router.navigate(['/login']);
           })
           .catch((error) => {
-            console.log('error during confirmation');
+            console.error('error during confirmation');
             return error;
           });
       })
       .catch((error) => {
-        console.log('invalid code or email');
+        console.error('invalid code or email');
         return error;
       });
   }
@@ -362,7 +361,7 @@ export class AuthService {
         this.router.navigateByUrl('/login');
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }
 }
